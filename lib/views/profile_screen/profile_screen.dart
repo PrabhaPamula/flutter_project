@@ -88,7 +88,7 @@ class ProfileScreen extends StatelessWidget {
                 //   height: 200,
                 // ),
                 50.heightBox,
-                Image.asset(imgProfile2,width: 100,fit: BoxFit.cover).box.roundedFull.clip(Clip.antiAlias).alignTopCenter.make(),
+                Image.asset(imgProfile,width: 100,fit: BoxFit.cover).box.roundedFull.clip(Clip.antiAlias).alignTopCenter.make(),
                 20.heightBox,
                 Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
