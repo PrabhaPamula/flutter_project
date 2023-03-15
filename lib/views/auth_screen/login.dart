@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:shopping_app/consts/consts.dart';
@@ -40,7 +41,7 @@ class _LoginState extends State<Login> {
                     SizedBox(
                       height: 30,
                     ),
-                    reusableTextField("Enter Username", false, _emailTextController),
+                    reusableTextField("Enter Email", false, _emailTextController),
                     SizedBox(
                       height: 20,
                     ),
@@ -49,8 +50,15 @@ class _LoginState extends State<Login> {
                       height: 20,
                     ),
                     loginSignupButton(context, true, () {
-                      Navigator.push(context,
-                       MaterialPageRoute(builder: (context) => Home()));
+                      FirebaseAuth.instance.signInWithEmailAndPassword(
+                        email: _emailTextController.text, 
+                        password: _passwordTextController.text).then((value) {
+                          Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Home()));
+                      }).onError((error, stackTrace) {
+                        print("Error ${error.toString()}");
+                      });
+                      
                     }),
                     signupOption()
                   ],

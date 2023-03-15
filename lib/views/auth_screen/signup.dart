@@ -1,3 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -75,8 +78,21 @@ class _SignupState extends State<Signup> {
                   height: 20,
                 ),
                 loginSignupButton(context, false, () {
-                  Navigator.push(context,
-                   MaterialPageRoute(builder: (context) => Login()));
+                  
+                  FirebaseAuth.instance.createUserWithEmailAndPassword(
+                    email: _emailTextController.text, 
+                    password: _passwordTextController.text
+                    ).then((value) {
+                      print("Created New Account");
+                      Map <String,dynamic> data = {"Username":_userNameTextController.text,"Password":_passwordTextController.text,"Email":_emailTextController.text};
+                      FirebaseFirestore.instance.collection("UserDetail").add(data);
+                      Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Login()));
+                    }).onError((error, stackTrace) {
+                      print("Error ${error.toString()}");
+                    });
+
+                  
                 })
               ],
             ),
